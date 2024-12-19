@@ -6,9 +6,9 @@ export default function ScheduleTable({ schedule, startDate }) {
   const initialDate = new Date(startDate);
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 p-4 bg-white rounded-lg shadow-lg max-w-lg mx-auto">
       <h2 className="text-lg font-bold mb-4">Horários Calculados</h2>
-      <table className="table-auto w-full border-collapse border border-gray-200">
+      <table className="table-auto w-full border-collapse border border-gray-300">
         <thead>
           <tr>
             <th className="border border-gray-300 px-4 py-2 bg-gray-100">Data</th>
