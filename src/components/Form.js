@@ -20,50 +20,79 @@ export default function Form({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-semibold text-center mb-4">MediCalc</h1>
-      <input
-        type="text"
-        placeholder="Nome do remédio"
-        value={medicineName}
-        onChange={(e) => setMedicineName(e.target.value)}
-        className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-      <input
-        type="text"
-        placeholder="Dosagem (opcional)"
-        value={dosage}
-        onChange={(e) => setDosage(e.target.value)}
-        className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-      <input
-        type="number"
-        placeholder="Intervalo (em horas)"
-        value={interval}
-        onChange={(e) => setInterval(e.target.value)}
-        className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-      <input
-        type="time"
-        placeholder="Horário inicial"
-        value={startTime}
-        onChange={(e) => setStartTime(e.target.value)}
-        className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-      <input
-        type="date"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-        className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-      <input
-        type="number"
-        placeholder="Quantidade de dias (opcional)"
-        value={days}
-        onChange={(e) => setDays(e.target.value)}
-        className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-      <button type="submit" className="bg-blue-500 text-white w-full py-3 rounded-lg hover:bg-blue-600 transition duration-200">
+    <form onSubmit={handleSubmit} className="space-y-6 p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
+      <h1 className="text-3xl font-semibold text-center text-green-600 mb-6">MediCalc</h1>
+      <div>
+        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="medicineName">Nome do Remédio</label>
+        <input
+          type="text"
+          id="medicineName"
+          placeholder="Nome do remédio"
+          value={medicineName}
+          onChange={(e) => setMedicineName(e.target.value)}
+          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="dosage">Dosagem (opcional)</label>
+        <input
+          type="text"
+          id="dosage"
+          placeholder="Dosagem"
+          value={dosage}
+          onChange={(e) => setDosage(e.target.value)}
+          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="interval">Intervalo (em horas)</label>
+        <input
+          type="number"
+          id="interval"
+          placeholder="Intervalo (em horas)"
+          value={interval}
+          onChange={(e) => setInterval(e.target.value)}
+          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="startTime">Horário Inicial</label>
+        <input
+          type="time"
+          id="startTime"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="startDate">Data Inicial</label>
+        <input
+          type="date"
+          id="startDate"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="days">Quantidade de Dias (opcional)</label>
+        <input
+          type="number"
+          id="days"
+          placeholder="Quantidade de dias"
+          value={days}
+          onChange={(e) => setDays(e.target.value)}
+          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      <button type="submit" className="bg-blue-500 text-white w-full py-4 rounded-lg hover:bg-blue-600 transition duration-200">
         Calcular Horários
       </button>
     </form>
