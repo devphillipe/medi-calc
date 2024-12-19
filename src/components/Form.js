@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ScheduleTable from './ScheduleTable';
 import SaveToCalendarButton from './SaveToCalendarButton';
+import generateSchedule from '@/utils/generateSchedule';
 
 export default function Form() {
   const [formData, setFormData] = useState({
@@ -8,7 +9,7 @@ export default function Form() {
     dosage: '',
     interval: '',
     firstDose: '',
-    days: '',
+    days: '', // Agora opcional
   });
 
   const [schedule, setSchedule] = useState([]);
@@ -22,65 +23,91 @@ export default function Form() {
     e.preventDefault();
     const { name, interval, firstDose, days } = formData;
 
-    if (!name || !interval || !firstDose || !days) {
+    if (!name || !interval || !firstDose) {
       alert('Preencha todos os campos obrigatórios.');
       return;
     }
 
-    const generatedSchedule = generateSchedule(interval, firstDose, days);
+    const generatedSchedule = generateSchedule(interval, firstDose, days || 1);
     setSchedule(generatedSchedule);
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow-md w-96">
+    <div className="bg-white p-6 rounded-xl shadow-md w-96">
+      <h1 className="text-3xl font-semibold text-center mb-6 text-red-500 uppercase">
+        <span className="text-green-400">Medi</span>Calc
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block mb-1 font-semibold">Nome do Remédio</label>
+          <label htmlFor="name" className="block mb-1 font-semibold">
+            Nome do Remédio
+          </label>
           <input
+            id="name"
             type="text"
             name="name"
             className="w-full border rounded p-2"
             onChange={handleChange}
+            placeholder="Nome do remédio"
+            aria-label="Nome do remédio"
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1 font-semibold">Dosagem (opcional)</label>
+          <label htmlFor="dosage" className="block mb-1 font-semibold">
+            Dosagem (opcional)
+          </label>
           <input
+            id="dosage"
             type="text"
             name="dosage"
             className="w-full border rounded p-2"
             onChange={handleChange}
+            placeholder="Ex: 500mg"
+            aria-label="Dosagem do remédio"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1 font-semibold">Intervalo (em horas)</label>
+          <label htmlFor="interval" className="block mb-1 font-semibold">
+            Intervalo (em horas)
+          </label>
           <input
+            id="interval"
             type="number"
             name="interval"
             className="w-full border rounded p-2"
             onChange={handleChange}
+            placeholder="Ex: 6"
+            aria-label="Intervalo entre as doses"
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1 font-semibold">Primeira Dose</label>
+          <label htmlFor="firstDose" className="block mb-1 font-semibold">
+            Primeira Dose
+          </label>
           <input
+            id="firstDose"
             type="time"
             name="firstDose"
             className="w-full border rounded p-2"
             onChange={handleChange}
+            aria-label="Hora da primeira dose"
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1 font-semibold">Quantos dias?</label>
+          <label htmlFor="days" className="block mb-1 font-semibold">
+            Quantos dias? (opcional)
+          </label>
           <input
+            id="days"
             type="number"
             name="days"
             className="w-full border rounded p-2"
             onChange={handleChange}
-            required
+            placeholder="Ex: 7"
+            aria-label="Quantidade de dias de tratamento"
           />
         </div>
         <button
@@ -99,17 +126,4 @@ export default function Form() {
       )}
     </div>
   );
-}
-
-function generateSchedule(interval, firstDose, days) {
-  const schedule = [];
-  const intervalMs = interval * 60 * 60 * 1000; // Converte para milissegundos
-  const startTime = new Date(`1970-01-01T${firstDose}:00`);
-  
-  for (let i = 0; i < days * 24 / interval; i++) {
-    const nextDose = new Date(startTime.getTime() + i * intervalMs);
-    schedule.push(nextDose.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-  }
-
-  return schedule;
 }
