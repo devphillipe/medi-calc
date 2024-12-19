@@ -1,24 +1,24 @@
-export default function ScheduleTable({ schedule, startDate }) {
+export default function ScheduleTable({ schedule }) {
   if (!schedule || schedule.length === 0) {
     return null;
   }
 
-  const startDateObj = new Date(startDate);
+  const currentDate = new Date();
 
   return (
-    <div className="mt-6 px-4">
-      <h2 className="text-lg font-bold mb-4 text-center">Horários Calculados</h2>
-      <table className="w-full table-auto border-collapse border border-gray-300">
-        <thead className="bg-gray-100">
+    <div className="mt-6">
+      <h2 className="text-lg font-bold mb-4">Horários Calculados</h2>
+      <table className="table-auto w-full border-collapse border border-gray-200">
+        <thead>
           <tr>
-            <th className="border border-gray-300 px-4 py-2 text-left">Data</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Horários</th>
+            <th className="border border-gray-300 px-4 py-2 bg-gray-100">Data</th>
+            <th className="border border-gray-300 px-4 py-2 bg-gray-100">Horários</th>
           </tr>
         </thead>
         <tbody>
           {schedule.map(({ day, times }, index) => {
-            const eventDate = new Date(startDateObj);
-            eventDate.setDate(startDateObj.getDate() + day);
+            const eventDate = new Date(currentDate);
+            eventDate.setDate(currentDate.getDate() + day);
 
             const formattedDate = eventDate.toLocaleDateString('pt-BR', {
               day: '2-digit',
@@ -27,7 +27,7 @@ export default function ScheduleTable({ schedule, startDate }) {
             });
 
             return (
-              <tr key={index} className="hover:bg-gray-100">
+              <tr key={index}>
                 <td className="border border-gray-300 px-4 py-2 text-center font-medium text-green-600">
                   {formattedDate}
                 </td>
