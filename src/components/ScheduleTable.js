@@ -6,13 +6,13 @@ export default function ScheduleTable({ schedule, startDate }) {
   const startDateObj = new Date(startDate);
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 px-4">
       <h2 className="text-lg font-bold mb-4 text-center">Horários Calculados</h2>
-      <table className="table-auto w-full border-collapse border border-gray-200">
-        <thead>
+      <table className="w-full table-auto border-collapse border border-gray-300">
+        <thead className="bg-gray-100">
           <tr>
-            <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Data</th>
-            <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Horários</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Data</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Horários</th>
           </tr>
         </thead>
         <tbody>
