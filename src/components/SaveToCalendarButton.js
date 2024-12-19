@@ -13,10 +13,8 @@ PRODID:-//MediCalc//EN
 `;
 
     schedule.forEach(({ day, times }) => {
-      const eventDate = new Date(currentDate);
-      eventDate.setDate(currentDate.getDate() + day);
-
-      const formattedDate = eventDate.toISOString().split('T')[0];
+      // Garante que a data correta é calculada
+      const eventDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + day);
 
       times.forEach((time) => {
         const [hour, minute] = time.split(':');
