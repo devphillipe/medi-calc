@@ -17,8 +17,7 @@ export default function ScheduleTable({ schedule }) {
         </thead>
         <tbody>
           {schedule.map(({ day, times }, index) => {
-            const eventDate = new Date(currentDate);
-            eventDate.setDate(currentDate.getDate() + day);
+            const eventDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + day);
 
             const formattedDate = eventDate.toLocaleDateString('pt-BR', {
               day: '2-digit',
