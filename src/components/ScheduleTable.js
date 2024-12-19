@@ -1,14 +1,14 @@
-export default function ScheduleTable({ schedule, startDate }) {
+export default function ScheduleTable({ schedule }) {
   if (!schedule || schedule.length === 0) {
     return null;
   }
 
-  const initialDate = new Date(startDate);
+  const currentDate = new Date();
 
   return (
-    <div className="mt-6 p-6 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Horários Calculados</h2>
-      <table className="table-auto w-full border-collapse border border-gray-300">
+    <div className="mt-6">
+      <h2 className="text-lg font-bold mb-4">Horários Calculados</h2>
+      <table className="table-auto w-full border-collapse border border-gray-200">
         <thead>
           <tr>
             <th className="border border-gray-300 px-4 py-2 bg-gray-100">Data</th>
@@ -17,8 +17,8 @@ export default function ScheduleTable({ schedule, startDate }) {
         </thead>
         <tbody>
           {schedule.map(({ day, times }, index) => {
-            const eventDate = new Date(initialDate);
-            eventDate.setDate(initialDate.getDate() + day);
+            const eventDate = new Date(currentDate);
+            eventDate.setDate(currentDate.getDate() + day);
 
             const formattedDate = eventDate.toLocaleDateString('pt-BR', {
               day: '2-digit',
