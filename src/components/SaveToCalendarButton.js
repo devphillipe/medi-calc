@@ -5,7 +5,6 @@ export default function SaveToCalendarButton({ schedule }) {
       return;
     }
 
-    // Data inicial para cálculo
     const currentDate = new Date();
     let icsContent = `
 BEGIN:VCALENDAR
@@ -13,12 +12,11 @@ VERSION:2.0
 PRODID:-//MediCalc//EN
 `;
 
-    // Iterar sobre os horários para criar eventos
     schedule.forEach(({ day, times }) => {
       const eventDate = new Date(currentDate);
       eventDate.setDate(currentDate.getDate() + day);
 
-      const formattedDate = eventDate.toISOString().split('T')[0]; // YYYY-MM-DD
+      const formattedDate = eventDate.toISOString().split('T')[0];
 
       times.forEach((time) => {
         const [hour, minute] = time.split(':');
@@ -26,7 +24,7 @@ PRODID:-//MediCalc//EN
         eventStart.setHours(hour, minute, 0);
 
         const eventEnd = new Date(eventStart);
-        eventEnd.setMinutes(eventEnd.getMinutes() + 30); // Duração de 30 minutos
+        eventEnd.setMinutes(eventEnd.getMinutes() + 30); // 30 minutos de duração
 
         icsContent += `
 BEGIN:VEVENT
@@ -45,7 +43,6 @@ END:VEVENT
 END:VCALENDAR
 `;
 
-    // Criar e baixar o arquivo ICS
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
 
