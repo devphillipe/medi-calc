@@ -20,7 +20,8 @@ export default function Form({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-lg mx-auto bg-white rounded-lg shadow-lg">
+    <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-semibold text-center mb-4">MediCalc</h1>
       <input
         type="text"
         placeholder="Nome do remédio"
