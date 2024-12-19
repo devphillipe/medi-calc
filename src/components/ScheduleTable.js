@@ -1,9 +1,9 @@
-export default function ScheduleTable({ schedule }) {
+export default function ScheduleTable({ schedule, startDate }) {
   if (!schedule || schedule.length === 0) {
     return null;
   }
 
-  const currentDate = new Date();
+  const initialDate = new Date(startDate);
 
   return (
     <div className="mt-6">
@@ -17,7 +17,8 @@ export default function ScheduleTable({ schedule }) {
         </thead>
         <tbody>
           {schedule.map(({ day, times }, index) => {
-            const eventDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + day);
+            const eventDate = new Date(initialDate);
+            eventDate.setDate(initialDate.getDate() + day);
 
             const formattedDate = eventDate.toLocaleDateString('pt-BR', {
               day: '2-digit',
