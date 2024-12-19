@@ -1,100 +1,115 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import ScheduleTable from './ScheduleTable';
+import SaveToCalendarButton from './SaveToCalendarButton';
 
-export default function Form({ onSubmit }) {
-  const [medicineName, setMedicineName] = useState('');
-  const [dosage, setDosage] = useState('');
-  const [interval, setInterval] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [days, setDays] = useState('');
-  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]); // Data inicial padrão: hoje
+export default function Form() {
+  const [formData, setFormData] = useState({
+    name: '',
+    dosage: '',
+    interval: '',
+    firstDose: '',
+    days: '',
+  });
+
+  const [schedule, setSchedule] = useState([]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { name, interval, firstDose, days } = formData;
 
-    if (!medicineName || !interval || !startTime) {
-      alert('Por favor, preencha os campos obrigatórios.');
+    if (!name || !interval || !firstDose || !days) {
+      alert('Preencha todos os campos obrigatórios.');
       return;
     }
 
-    onSubmit({ medicineName, dosage, interval, startTime, days, startDate });
+    const generatedSchedule = generateSchedule(interval, firstDose, days);
+    setSchedule(generatedSchedule);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
-      <h1 className="text-3xl font-semibold text-center text-green-600 mb-6">MediCalc</h1>
-      <div>
-        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="medicineName">Nome do Remédio</label>
-        <input
-          type="text"
-          id="medicineName"
-          placeholder="Nome do remédio"
-          value={medicineName}
-          onChange={(e) => setMedicineName(e.target.value)}
-          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
+    <div className="bg-white p-6 rounded shadow-md w-96">
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Nome do Remédio</label>
+          <input
+            type="text"
+            name="name"
+            className="w-full border rounded p-2"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Dosagem (opcional)</label>
+          <input
+            type="text"
+            name="dosage"
+            className="w-full border rounded p-2"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Intervalo (em horas)</label>
+          <input
+            type="number"
+            name="interval"
+            className="w-full border rounded p-2"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Primeira Dose</label>
+          <input
+            type="time"
+            name="firstDose"
+            className="w-full border rounded p-2"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Quantos dias?</label>
+          <input
+            type="number"
+            name="days"
+            className="w-full border rounded p-2"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600"
+        >
+          Calcular Horários
+        </button>
+      </form>
 
-      <div>
-        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="dosage">Dosagem (opcional)</label>
-        <input
-          type="text"
-          id="dosage"
-          placeholder="Dosagem"
-          value={dosage}
-          onChange={(e) => setDosage(e.target.value)}
-          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="interval">Intervalo (em horas)</label>
-        <input
-          type="number"
-          id="interval"
-          placeholder="Intervalo (em horas)"
-          value={interval}
-          onChange={(e) => setInterval(e.target.value)}
-          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="startTime">Horário Inicial</label>
-        <input
-          type="time"
-          id="startTime"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="startDate">Data Inicial</label>
-        <input
-          type="date"
-          id="startDate"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-lg font-medium text-gray-700 mb-2" htmlFor="days">Quantidade de Dias (opcional)</label>
-        <input
-          type="number"
-          id="days"
-          placeholder="Quantidade de dias"
-          value={days}
-          onChange={(e) => setDays(e.target.value)}
-          className="border border-gray-300 rounded-lg w-full p-4 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
-
-      <button type="submit" className="bg-blue-500 text-white w-full py-4 rounded-lg hover:bg-blue-600 transition duration-200">
-        Calcular Horários
-      </button>
-    </form>
+      {schedule.length > 0 && (
+        <>
+          <ScheduleTable schedule={schedule} />
+          <SaveToCalendarButton schedule={schedule} />
+        </>
+      )}
+    </div>
   );
+}
+
+function generateSchedule(interval, firstDose, days) {
+  const schedule = [];
+  const intervalMs = interval * 60 * 60 * 1000; // Converte para milissegundos
+  const startTime = new Date(`1970-01-01T${firstDose}:00`);
+  
+  for (let i = 0; i < days * 24 / interval; i++) {
+    const nextDose = new Date(startTime.getTime() + i * intervalMs);
+    schedule.push(nextDose.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+  }
+
+  return schedule;
 }
