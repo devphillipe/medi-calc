@@ -1,11 +1,11 @@
-export default function SaveToCalendarButton({ schedule }) {
+export default function SaveToCalendarButton({ schedule, startDate }) {
   const handleSaveToCalendar = () => {
     if (!schedule || schedule.length === 0) {
       alert('Nenhum horário para salvar.');
       return;
     }
 
-    const currentDate = new Date();
+    const initialDate = new Date(startDate);
     let icsContent = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -13,8 +13,8 @@ PRODID:-//MediCalc//EN
 `;
 
     schedule.forEach(({ day, times }) => {
-      // Garante que a data correta é calculada
-      const eventDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + day);
+      const eventDate = new Date(initialDate);
+      eventDate.setDate(initialDate.getDate() + day);
 
       times.forEach((time) => {
         const [hour, minute] = time.split(':');
