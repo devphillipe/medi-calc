@@ -33,9 +33,9 @@ export default function Form() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md w-96">
-      <h1 className="text-3xl font-semibold text-center mb-6 text-red-500 uppercase">
-        <span className="text-green-400">Medi</span>Calc
+    <div className="bg-white p-6 rounded shadow-md w-96">
+      <h1 className="text-3xl font-semibold text-center mb-6 text-green-600">
+        <span className="text-red-600">Medi</span>Calc
       </h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
