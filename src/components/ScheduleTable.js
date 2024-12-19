@@ -7,12 +7,12 @@ export default function ScheduleTable({ schedule, startDate }) {
 
   return (
     <div className="mt-6">
-      <h2 className="text-lg font-bold mb-4">Horários Calculados</h2>
+      <h2 className="text-lg font-bold mb-4 text-center">Horários Calculados</h2>
       <table className="table-auto w-full border-collapse border border-gray-200">
         <thead>
           <tr>
-            <th className="border border-gray-300 px-4 py-2 bg-gray-100">Data</th>
-            <th className="border border-gray-300 px-4 py-2 bg-gray-100">Horários</th>
+            <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Data</th>
+            <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Horários</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@ export default function ScheduleTable({ schedule, startDate }) {
             });
 
             return (
-              <tr key={index}>
+              <tr key={index} className="hover:bg-gray-100">
                 <td className="border border-gray-300 px-4 py-2 text-center font-medium text-green-600">
                   {formattedDate}
                 </td>
