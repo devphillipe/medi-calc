@@ -3,7 +3,6 @@ export default function ScheduleTable({ schedule }) {
     return null;
   }
 
-  // Obtém a data inicial (hoje) para calcular as datas reais
   const currentDate = new Date();
 
   return (
@@ -18,11 +17,9 @@ export default function ScheduleTable({ schedule }) {
         </thead>
         <tbody>
           {schedule.map(({ day, times }, index) => {
-            // Calcula a data correspondente ao "day"
             const eventDate = new Date(currentDate);
             eventDate.setDate(currentDate.getDate() + day);
 
-            // Formata a data (Ex: 19/12/2024)
             const formattedDate = eventDate.toLocaleDateString('pt-BR', {
               day: '2-digit',
               month: '2-digit',
