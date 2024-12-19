@@ -1,50 +1,56 @@
-import { saveAs } from 'file-saver'; // Para salvar o arquivo no navegador
-
 export default function SaveToCalendarButton({ schedule }) {
-  const handleSaveToCalendar = () => {
+  const handleShare = async () => {
     if (!schedule || schedule.length === 0) {
-      alert('Nenhum horário para salvar.');
+      alert('Nenhum horário para compartilhar.');
       return;
     }
 
-    // Criação do conteúdo do arquivo ICS
-    let icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-CALSCALE:GREGORIAN
-PRODID:-//MediCalc//Calendário//EN\n`;
+    // Data atual para calcular os dias
+    const currentDate = new Date();
+    let shareText = 'Horários para tomar o remédio:\n\n';
 
     schedule.forEach(({ day, times }) => {
-      times.forEach((time) => {
-        const [hour, minute] = time.split(':');
-        const startTime = new Date();
-        startTime.setHours(hour, minute, 0);
+      // Incrementa a data inicial com base no número do dia (0 = hoje)
+      const eventDate = new Date(currentDate);
+      eventDate.setDate(currentDate.getDate() + day);
 
-        const endTime = new Date(startTime.getTime() + 30 * 60 * 1000); // Evento de 30 minutos
-        const startDate = startTime.toISOString().replace(/[-:]/g, '').split('.')[0];
-        const endDate = endTime.toISOString().replace(/[-:]/g, '').split('.')[0];
-
-        icsContent += `BEGIN:VEVENT
-DTSTART:${startDate}Z
-DTEND:${endDate}Z
-SUMMARY:Dose do Medicamento
-DESCRIPTION:Horário para tomar o remédio.
-END:VEVENT\n`;
+      // Formata a data (Ex: 19/12/2024)
+      const formattedDate = eventDate.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
       });
+
+      shareText += `Data: ${formattedDate}:\n`;
+      times.forEach((time) => {
+        shareText += `- ${time}\n`;
+      });
+      shareText += '\n';
     });
 
-    icsContent += 'END:VCALENDAR';
-
-    // Salvar o arquivo no dispositivo
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    saveAs(blob, 'medication_schedule.ics');
+    // Verifica se a API é suportada pelo navegador
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Horários de Medicamento',
+          text: shareText,
+        });
+        alert('Horários compartilhados com sucesso!');
+      } catch (error) {
+        console.error('Erro ao compartilhar:', error);
+        alert('Falha ao compartilhar.');
+      }
+    } else {
+      alert('Compartilhamento não suportado no seu navegador.');
+    }
   };
 
   return (
     <button
-      onClick={handleSaveToCalendar}
+      onClick={handleShare}
       className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 mt-4"
     >
-      Salvar na Agenda
+      Compartilhar na Agenda
     </button>
   );
 }
