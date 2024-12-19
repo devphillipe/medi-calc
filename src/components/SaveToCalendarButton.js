@@ -55,7 +55,7 @@ END:VCALENDAR
   return (
     <button
       onClick={handleSaveToCalendar}
-      className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 mt-4"
+      className="bg-green-500 text-white w-full py-3 rounded-lg hover:bg-green-600 mt-4 transition duration-200"
     >
       Salvar na Agenda
     </button>
